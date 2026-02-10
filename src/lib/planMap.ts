@@ -21,6 +21,7 @@ export function productFromItemPriceId(itemPriceId: string): ProductKey | null {
   if (upper.startsWith("CONF") || upper.startsWith("CONFLUENCE"))
     return "confluence";
   if (upper.startsWith("LOOM")) return "loom";
+  if (upper.startsWith("ALLOY")) return "package";
   if (upper.includes("PACKAGE") || upper.includes("BUNDLE")) return "package";
 
   return null;
