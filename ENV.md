@@ -16,9 +16,7 @@ CHARGEBEE_API_KEY=your_api_key
 # Chargebee.js (browser) - used for Pricing Tables + Customer Portal embed
 NEXT_PUBLIC_CHARGEBEE_JS_SITE=hp-demo-test
 
-# Optional: if you have an Alloy Growth Pricing Page, set its pricing_page[id] here.
-# If not set, Alloy tab falls back to the static pricing table embed.
-NEXT_PUBLIC_ALLOY_PRICING_PAGE_ID=
+# Pricing pages are configured in `src/lib/pricingTables.ts`
 ```
 
 To generate a secret, you can run:

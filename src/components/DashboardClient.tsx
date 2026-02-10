@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/apiFetch";
 import { regionFromBusinessEntityId } from "@/lib/businessEntities";
 import { AlloyLogo, ConfluenceLogo, JiraLogo, LoomLogo } from "@/components/ProductLogos";
+import { PortalEmbed } from "@/components/PortalEmbed";
 
 type ChargebeePortalSession = {
   id?: string;
@@ -673,7 +674,7 @@ export function DashboardClient() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-screen-xl">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
@@ -829,9 +830,11 @@ export function DashboardClient() {
                                       void openCancelPortal(s.id);
                                     }}
                                     disabled={portalOpening === s.id}
-                                    className="rounded-lg border border-red-200 bg-red-50 px-2 py-1 text-[11px] font-semibold text-red-800 transition hover:bg-red-100 disabled:opacity-60 dark:border-red-900/40 dark:bg-red-950/40 dark:text-red-200 dark:hover:bg-red-950/60"
+                                    className="rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-semibold text-zinc-800 transition hover:bg-zinc-100 disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-200 dark:hover:bg-zinc-900"
                                   >
-                                    {portalOpening === s.id ? "Opening…" : "Cancel"}
+                                    {portalOpening === s.id
+                                      ? "Opening…"
+                                      : "Manage subscription"}
                                   </button>
                                 )}
                             </div>
@@ -978,6 +981,12 @@ export function DashboardClient() {
                   const tableCfg = PRICING_TABLES[region]?.[p.key];
                   const alloyDisabled =
                     p.key === "package" && hasActiveIndividualSubscription;
+                  const activeSubIdForProduct =
+                    subscriptionSummaries.find(
+                      (s) =>
+                        s.status === "active" &&
+                        productFromItemPriceId(s.planId) === p.key,
+                    )?.id ?? null;
                   return (
                     <>
                       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -1039,7 +1048,9 @@ export function DashboardClient() {
                             subscription to Jira/Confluence/Loom.
                           </div>
                         ) : null}
-                        {tableCfg ? (
+                        {activeSubIdForProduct ? (
+                          <PortalEmbed subscriptionId={activeSubIdForProduct} />
+                        ) : tableCfg ? (
                           <ChargebeePricingTable
                             site={tableCfg.site}
                             integration={tableCfg.integration}

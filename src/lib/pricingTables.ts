@@ -30,29 +30,19 @@ export type PricingTableConfig =
 
 export function getHostedPricingPageUrl(product: ProductKey, cfg: PricingTableConfig) {
   if (cfg.integration !== "api") return null;
-  // URL patterns you shared (AtomicPricing / Growth Pricing Pages)
-  return product === "loom"
-    ? `https://hosted.atomicpricing.com/sites/${cfg.siteId}/pricing/${cfg.pricingPageId}`
-    : `https://app.atomicpricing.com/sites/${cfg.siteId}/pricing-pages/${cfg.pricingPageId}`;
+  // Hosted Growth Pricing Pages (current format you shared)
+  return `https://hosted.atomicpricing.com/sites/${cfg.siteId}/pricing/${cfg.pricingPageId}`;
 }
 
-const ALLOY_PRICING_PAGE_ID = process.env.NEXT_PUBLIC_ALLOY_PRICING_PAGE_ID;
+const SITE_ID = "01KGMYNNDETQJPZPFPBBV1WATN";
 
-const alloyPricingConfig: PricingTableConfig = ALLOY_PRICING_PAGE_ID
-  ? {
-      site: "hp-demo-test",
-      integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: ALLOY_PRICING_PAGE_ID,
-      viewportDefaultHeight: "992px",
-    }
-  : {
-      site: "hp-demo-test",
-      integration: "static",
-      pricingTableSiteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingTableId: "01KGQM2V5N3V0CHDAR1099CN8F",
-      viewportDefaultHeight: "633px",
-    };
+const alloyPricingConfig: PricingTableConfig = {
+  site: "hp-demo-test",
+  integration: "api",
+  siteId: SITE_ID,
+  pricingPageId: "01KGMZ9F5F881GAS44AYP19WCB",
+  viewportDefaultHeight: "992px",
+};
 
 /**
  * Map Chargebee pricing-table embeds per product/region.
@@ -65,22 +55,22 @@ export const PRICING_TABLES: Partial<
     jira: {
       site: "hp-demo-test",
       integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: "01KGQBZPB2TF3ZNSAHMY87XBZY",
+      siteId: SITE_ID,
+      pricingPageId: "01KGMZ5GR7A05EXMCD2F36TC0M",
       viewportDefaultHeight: "992px",
     },
     confluence: {
       site: "hp-demo-test",
       integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: "01KGQBXNQDPSFD5TG50Q8RKNDT",
+      siteId: SITE_ID,
+      pricingPageId: "01KGMZ7A1TYW2NJ7GGA0YRYJH0",
       viewportDefaultHeight: "992px",
     },
     loom: {
       site: "hp-demo-test",
       integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: "01KGQBRMCFFNZZB2CKH0PZJ9DB",
+      siteId: SITE_ID,
+      pricingPageId: "01KGMYSKVQCEDDYHFNXETJSQP7",
       viewportDefaultHeight: "992px",
     },
     package: alloyPricingConfig,
@@ -89,22 +79,22 @@ export const PRICING_TABLES: Partial<
     jira: {
       site: "hp-demo-test",
       integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: "01KGQBZPB2TF3ZNSAHMY87XBZY",
+      siteId: SITE_ID,
+      pricingPageId: "01KGMZ5GR7A05EXMCD2F36TC0M",
       viewportDefaultHeight: "992px",
     },
     confluence: {
       site: "hp-demo-test",
       integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: "01KGQBXNQDPSFD5TG50Q8RKNDT",
+      siteId: SITE_ID,
+      pricingPageId: "01KGMZ7A1TYW2NJ7GGA0YRYJH0",
       viewportDefaultHeight: "992px",
     },
     loom: {
       site: "hp-demo-test",
       integration: "api",
-      siteId: "01KGN2S3P3H3XH57CNWYWWWWDN",
-      pricingPageId: "01KGQBRMCFFNZZB2CKH0PZJ9DB",
+      siteId: SITE_ID,
+      pricingPageId: "01KGMYSKVQCEDDYHFNXETJSQP7",
       viewportDefaultHeight: "992px",
     },
     package: alloyPricingConfig,
