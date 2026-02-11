@@ -981,12 +981,33 @@ export function DashboardClient() {
                   const tableCfg = PRICING_TABLES[region]?.[p.key];
                   const alloyDisabled =
                     p.key === "package" && hasActiveIndividualSubscription;
-                  const activeSubIdForProduct =
+                  const preferredStatuses = [
+                    "active",
+                    "non_renewing",
+                    "in_trial",
+                    "future",
+                    "paused",
+                    "cancelled",
+                    "expired",
+                  ];
+
+                  const managedSubForProduct =
+                    preferredStatuses
+                      .map((st) =>
+                        subscriptionSummaries.find(
+                          (s) =>
+                            s.status === st &&
+                            productFromItemPriceId(s.planId) === p.key &&
+                            s.id,
+                        ),
+                      )
+                      .find(Boolean) ??
                     subscriptionSummaries.find(
-                      (s) =>
-                        s.status === "active" &&
-                        productFromItemPriceId(s.planId) === p.key,
-                    )?.id ?? null;
+                      (s) => productFromItemPriceId(s.planId) === p.key && s.id,
+                    ) ??
+                    null;
+
+                  const managedSubIdForProduct = managedSubForProduct?.id ?? null;
                   return (
                     <>
                       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -1001,7 +1022,7 @@ export function DashboardClient() {
                           </p>
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          {tableCfg ? (
+                          {tableCfg && !managedSubIdForProduct ? (
                             <a
                               href="#"
                               onClick={(e) => {
@@ -1041,15 +1062,15 @@ export function DashboardClient() {
                       </div>
 
                       <div className="mt-4">
-                        {alloyDisabled ? (
+                        {alloyDisabled && !managedSubIdForProduct ? (
                           <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200">
                             Alloy is disabled because you already have an{" "}
                             <span className="font-semibold">active</span>{" "}
                             subscription to Jira/Confluence/Loom.
                           </div>
                         ) : null}
-                        {activeSubIdForProduct ? (
-                          <PortalEmbed subscriptionId={activeSubIdForProduct} />
+                        {managedSubIdForProduct ? (
+                          <PortalEmbed subscriptionId={managedSubIdForProduct} />
                         ) : tableCfg ? (
                           <ChargebeePricingTable
                             site={tableCfg.site}
